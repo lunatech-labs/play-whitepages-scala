@@ -1,0 +1,55 @@
+@(person:models.Person, form:play.data.Form[models.Person])
+@**
+ * Edit contact details page.
+ *
+ * @param person  The contact details to edit.
+ * @param form    Edited fields, including values and error messages.
+ *@
+
+@main(title = "People directory", subtitle = "Edit details - " + person.name) {
+
+   <section class="box">
+      <form class="" method="post" action="@routes.Application.update(person.id)">
+         <h4>Contact details</h4>
+         <fieldset>
+            <div>
+               <label for="name">Name *</label>
+               <input type="text" id="name" name="@form("name").name" value="@form("name").value">
+               @errors(form("name"))
+            </div>
+            <div>
+               <label for="file">File as *</label>
+               <input type="text" id="file" name="@form("fileAs").name" value="@form("fileAs").value">
+               @errors(form("fileAs"))
+             </div>
+            <div>
+               <label for="telephone">Telephone</label>
+               <input type="text" id="telephone" name="@form("telephoneNumber").name" value="@form("telephoneNumber").value">
+               @errors(form("telephoneNumber"))
+            </div>
+            <div>
+               <label for="office">Office</label>
+               <input type="text" id="office" name="@form("office").name" value="@form("office").value">
+               @errors(form("office"))
+            </div>
+            <div>
+               <label for="email">E-mail</label>
+               <input type="email" id="email" name="@form("emailAddress").name" value="@form("emailAddress").value">
+               @errors(form("emailAddress"))
+             </div>
+         </fieldset>
+         <div class="buttons">
+             <button type="submit" class="save" value="Save">Save</button>
+         <!--    <button type="button" class="cancel" value="Cancel">Cancel</button> -->
+         </div>
+         <p>* These fields are required.</p>
+      </form>
+   </section>
+}
+
+@errors(field:play.api.data.Field) = {
+   @for(error <- field.errors) {
+       <span class="error">@error.message</span>
+   }
+}
+

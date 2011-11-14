@@ -1,0 +1,41 @@
+@(person:models.Person)
+@**
+ * HTML fragment of a person’s details, loaded via a jQuery AJAX load.
+ *
+ * @param person  The contact details to display.
+ *@
+<table class="details">
+	<thead>
+		<tr>
+			<td class="avatar"><img src="@routes.Assets.at("avatar.png")"" alt="avatar"></td>
+			<th>@person.name</th>
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<th>Name</th>
+			<td>@person.name</td>
+		</tr>
+		<tr>
+			<th>File as</th>
+			<td>@person.fileAs</td>
+		</tr>
+		<tr>
+			<th>Telephone</th>
+			<td>@person.telephoneNumber</td>
+		</tr>
+		<tr>
+			<th>Office</th>
+			<td>@person.office</td>
+		</tr>
+		<tr>
+			<th>E-mail</th>
+			<td>@person.emailAddress</td>
+		</tr>
+	</tbody>
+</table>
+
+<div class="buttons">
+   <a class="edit button" href="@routes.Application.edit(person.id)">Edit</a>
+</div>

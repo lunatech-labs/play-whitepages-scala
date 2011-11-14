@@ -1,0 +1,20 @@
+@(currentPage:Seq[models.Person], search:String)
+@**
+ * Index page that shows a list of directory entries, with a search form.
+ *
+ * @param currentPage  One page of the results list.
+ * @param search  A user-entered search string - part of a name or number.
+ *@
+@import models.Person
+@import scala.collection.immutable.TreeMap
+
+@main(title = "People directory", subtitle = currentPage.size + " entries - search by name or number") {
+
+   <section class="box">
+      <form class="search" action="@routes.Application.list()">
+      <input name="q" type="search" placeholder="One letter or part of a name or number">
+      </form>
+
+      @indexList(currentPage, search)
+   </section>
+}

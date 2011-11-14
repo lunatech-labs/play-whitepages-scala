@@ -1,0 +1,51 @@
+@(title:String, subtitle:String)(body: => Html)
+@**
+ * Main template that provides an HTML template wrapper for each page.
+ *
+ * @param title     Text for the main template heading.
+ * @param subtitle  Text for the main template sub-heading.
+ * @param body      Implementation of the per-page body block.
+ *@
+@import play.core.Router._
+@import play.mvc.Http.Context
+<!DOCTYPE html>
+<html>
+<head>
+<title>@title - White Pages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
+<link rel="stylesheet" type="text/css" href="@routes.Assets.at("stylesheets/main.css")">
+<script src="@routes.Assets.at("scripts/modernizr.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@routes.Assets.at("scripts/jquery.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@routes.Assets.at("scripts/jquery-ui.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@routes.Assets.at("scripts/init.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@routes.Assets.at("scripts/infinite-scroll/jquery.infinitescroll.min.js")" type="text/javascript" charset="utf-8"></script>
+<script src="@routes.Assets.at("scripts/application.js")" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+<header>
+	<div class="logo">White Pages</div>
+</header>
+
+<nav>
+	<ul>
+		<li class="active"><a href="/">Home</a></li>
+	</ul>
+</nav>
+
+<article class="content">
+	<hgroup>
+		<h1>People Directory</h1>
+		<h5>@subtitle</h5>
+	</hgroup>
+
+	@body
+</article>
+
+<footer>
+	<p>Copyright ©2011 Lunatech Labs BV</p>
+</footer>
+
+</body>
+</html>

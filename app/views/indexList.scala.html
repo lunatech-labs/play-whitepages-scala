@@ -1,0 +1,31 @@
+@(currentPage:Seq[models.Person], search:String)
+@**
+ * HTML fragment for the list of entries, used for the index page and to load search results using Ajax.
+ *
+ * @param currentPage  One page of the results list.
+ * @param search       A user-entered search string - part of a name or number.
+ *@
+@import models.Person
+@import scala.collection.immutable.TreeMap
+@import scala.collection.JavaConverters._
+
+   <div id="index" class="index">
+   <!-- p class="letter">AA</p -->
+   @for(person <- currentPage) {
+      <p id="p@person.id" class="entry" data-file-as="@person.fileAs">
+      <a href="@routes.Application.details(person.id)">
+      @if(person.name.contains(person.fileAs)) {
+          @person.name.substring(0, person.name.indexOf(person.fileAs))
+          <strong>@person.name.substring(person.name.indexOf(person.fileAs))</strong>
+      } else {
+          <strong>@person.name</strong>
+      }
+      </a>
+      </p>
+    }
+
+
+    @if(true) {
+        <p class="next"><a href="@routes.Application.index(0 + 2, search)">Next</a></p>
+    }
+    </div>

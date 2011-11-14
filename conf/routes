@@ -1,0 +1,7 @@
+GET     /                       controllers.Application.index(page:Int ?= 1, q:String ?= "")
+GET     /list                   controllers.Application.list(page:Int ?= 1, q:String ?= "")
+GET     /edit/:id               controllers.Application.edit(id:Long)
+POST    /update/:id             controllers.Application.update(id:Long)
+GET     /:id                    controllers.Application.details(id:Long)
+
+GET     /assets/*file           controllers.Assets.at(path="/public", file)
