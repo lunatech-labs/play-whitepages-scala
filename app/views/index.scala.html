@@ -8,7 +8,7 @@
 @import models.Person
 @import scala.collection.immutable.TreeMap
 
-@main(title = "People directory", subtitle = currentPage.size + " entries - search by name or number") {
+@main(title = "People directory", subtitle = Person.numberOfEntries + " entries - search by name or number") {
 
    <section class="box">
       <form class="search" action="@routes.Application.list()">

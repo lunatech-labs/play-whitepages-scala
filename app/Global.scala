@@ -1,35 +1,44 @@
 import io.Source
 import java.io.File
 import models.Person
+import org.scalaquery.ql.extended.H2Driver.Implicit._
+import org.scalaquery.session._
+import org.scalaquery.session.Database.threadLocalSession
 import play.api._
+import db.DB
 import scala.math._
 
 object Global extends GlobalSettings {
 
-  /** Intercept application start-up to load test data. */
+  /** Intercept application start-up to create the database and load test data. */
   override def onStart(app: Application) {
-    loadTestData
+
+    Database.forDataSource(DB.getDataSource()(app)) withSession {
+      Person.ddl.create
+      loadTestData
+    }
   }
 
   /** Load test data from a file of names, with one name per line. */
-  def loadTestData {
+  private def loadTestData {
+
     val testDataFile = new File("conf/test-data.txt")
     val testDataLines = Source.fromFile(testDataFile).getLines().toList
-    for (name <- testDataLines if !name.startsWith("#")) {
-      val entry = new Person
-      entry.name = name
-      entry.telephoneNumber = "0" + number(3) + " " + number(6)
-      entry.fileAs = name.substring(name.lastIndexOf(" ") + 1)
-      entry.office = number(1) + "." + number(2)
-      entry.emailAddress = name.replaceAll(" ", ".").toLowerCase() + "@example.org"
 
-      // insert the entry
+    for (name <- testDataLines if !name.startsWith("#")) {
+
+      val telephoneNumber = "0" + number(3) + " " + number(6)
+      val fileAs = name.substring(name.lastIndexOf(" ") + 1)
+      val office = number(1) + "." + number(2)
+      val emailAddress = name.replaceAll(" ", ".").toLowerCase() + "@example.org"
+
+      Person.values insert (name, telephoneNumber, fileAs, office, emailAddress)
     }
   }
 
   /** Return a random number with the given number of digits. */
   private def number(digits:Int): String = {
     val limit = pow(10.0, digits)
-    String.format("%0" + digits + ".0f", ceil(random + (limit - 1)))
+    "%0" + digits + ".0f".format(ceil(random + (limit - 1)))
   }
 }
