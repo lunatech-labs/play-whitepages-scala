@@ -1,6 +1,6 @@
 import io.Source
 import java.io.File
-import models.Person
+import models.People
 import org.scalaquery.ql.extended.H2Driver.Implicit._
 import org.scalaquery.session._
 import org.scalaquery.session.Database.threadLocalSession
@@ -14,7 +14,7 @@ object Global extends GlobalSettings {
   override def onStart(app: Application) {
 
     Database.forDataSource(DB.getDataSource()(app)) withSession {
-      Person.ddl.create
+      People.ddl.create
       loadTestData
     }
   }
@@ -32,7 +32,7 @@ object Global extends GlobalSettings {
       val office = number(1) + "." + number(2)
       val emailAddress = name.replaceAll(" ", ".").toLowerCase() + "@example.org"
 
-      Person.values insert (name, telephoneNumber, fileAs, office, emailAddress)
+      People.values insert (name, telephoneNumber, fileAs, office, emailAddress)
     }
   }
 

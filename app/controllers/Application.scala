@@ -1,7 +1,7 @@
 package controllers
 
-import models.Person
 import play.api.mvc._
+import models.{People, Person}
 
 /** Handles HTTP requests. */
 object Application extends Controller {
@@ -18,8 +18,7 @@ object Application extends Controller {
 
   /** Render one page of results as an HTML page. */
   def index(page:Int, query:String) = Action {
-//    Ok(views.html.index(Person.findAll, ""))
-    Ok(views.html.index(Nil, query))
+    Ok(views.html.index(People.page, query))
   }
 
   /** Render one page of results as an HTML fragment. */
