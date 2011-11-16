@@ -1,7 +1,8 @@
 package controllers
 
-import play.api.mvc._
 import models.{People, Person}
+import play.api.mvc._
+import play.api.data._
 
 /** Handles HTTP requests. */
 object Application extends Controller {
@@ -18,7 +19,24 @@ object Application extends Controller {
 
   /** Edit one entry. */
   def edit(id:Long) = Action {
-    Ok("")
+
+    val form = Form(
+      of(Person.apply _)(
+        "id" -> number,
+        "name" -> requiredText,
+        "telephoneNumber" -> text,
+        "fileAs" -> text,
+        "office" -> text,
+        "emailAddress" -> text
+      )
+    )
+
+    People.find(id) match {
+      case None => NotFound("Invalid ID")
+      case Some(person) => {
+        Ok(views.html.edit(person, form.fill(person)))
+      }
+    }
   }
 
   /** Render one page of results as an HTML page. */
