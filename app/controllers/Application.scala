@@ -10,7 +10,10 @@ object Application extends Controller {
 
   /** Render one entry. */
   def details(id:Long) = Action {
-    Ok(views.html.details(People.find(id)))
+    People.find(id) match {
+      case None => NotFound("Invalid ID")
+      case Some(person) => Ok(views.html.details(person))
+    }
   }
 
   /** Edit one entry. */
