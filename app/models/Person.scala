@@ -8,6 +8,7 @@ import org.scalaquery.ql.extended.H2Driver.Implicit._
 import org.scalaquery.ql.extended.{ExtendedTable => Table}
 import org.scalaquery.session._
 import org.scalaquery.session.Database.threadLocalSession
+import play.api.Logger
 
 /** A directory entry for one person. */
 case class Person(id: Long, name: String, telephoneNumber: String, fileAs: String, office: String, emailAddress: String)
@@ -40,9 +41,9 @@ object People extends Table[(Long, String, String, String, String, String)]("peo
   def values = name ~ telephoneNumber ~ fileAs ~ office ~ emailAddress
 
   /** Returns the entry with the given ID. */
-  def find(id:Long) : Person = database.withSession {
+  def find(id:Long) : Option[Person] = database.withSession {
     val query = for(person <- People if person.id === id) yield person.mapped
-    query.first
+    query.firstOption
   }
 
   /** Returns the total number of entries. */
@@ -52,10 +53,10 @@ object People extends Table[(Long, String, String, String, String, String)]("peo
 
   /** Returns one page of entries. */
   def page(pageNumber:Int, pageSize:Int, search:String) : Seq[Person] = database.withSession {
-    val query = for(person <- People if person.name.toLowerCase like "%" + search.toLowerCase + "%") yield person.mapped
+    val filteredQuery = for(person <- People if person.name.toLowerCase like "%" + search.toLowerCase + "%") yield person.mapped
     val startIndex = (pageNumber - 1) * pageSize
-    // TODO: is it possible to do a paged query in the database?
-    query.list.slice(startIndex, startIndex + pageSize)
+    val pagedQuery = filteredQuery.drop(startIndex).take(startIndex + pageSize)
+    pagedQuery.list
   }
 
 }
