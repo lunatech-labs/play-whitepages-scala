@@ -39,6 +39,6 @@ object Global extends GlobalSettings {
   /** Return a random number with the given number of digits. */
   private def number(digits:Int): String = {
     val limit = pow(10.0, digits)
-    "%0" + digits + ".0f".format(ceil(random + (limit - 1)))
+    ("%0" + digits + ".0f").format(ceil(random * (limit - 1)))
   }
 }
