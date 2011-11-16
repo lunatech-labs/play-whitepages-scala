@@ -10,7 +10,7 @@ object Application extends Controller {
 
   /** Render one entry. */
   def details(id:Long) = Action {
-    Ok("")
+    Ok(views.html.details(People.find(id)))
   }
 
   /** Edit one entry. */

@@ -39,13 +39,19 @@ object People extends Table[(Long, String, String, String, String, String)]("peo
 
   def values = name ~ telephoneNumber ~ fileAs ~ office ~ emailAddress
 
+  /** Returns the entry with the given ID. */
+  def find(id:Long) : Person = database.withSession {
+    val query = for(person <- People if person.id === id) yield person.mapped
+    query.first
+  }
+
   /** Returns the total number of entries. */
   def numberOfEntries:Int = database.withSession {
     Query(People.count).first
   }
 
   /** Returns one page of entries. */
-  def page(pageNumber:Int, pageSize:Int, search:String):Seq[Person] = database.withSession {
+  def page(pageNumber:Int, pageSize:Int, search:String) : Seq[Person] = database.withSession {
     val query = for(person <- People if person.name.toLowerCase like "%" + search.toLowerCase + "%") yield person.mapped
     val startIndex = (pageNumber - 1) * pageSize
     // TODO: is it possible to do a paged query in the database?
