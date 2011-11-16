@@ -5,7 +5,9 @@ import models.{People, Person}
 
 /** Handles HTTP requests. */
 object Application extends Controller {
-  
+
+  val PageSize = 50
+
   /** Render one entry. */
   def details(id:Long) = Action {
     Ok("")
@@ -17,13 +19,13 @@ object Application extends Controller {
   }
 
   /** Render one page of results as an HTML page. */
-  def index(page:Int, query:String) = Action {
-    Ok(views.html.index(People.page, query))
+  def index(pageNumber:Int, query:String) = Action {
+    Ok(views.html.index(People.page(pageNumber, PageSize, query), query))
   }
 
   /** Render one page of results as an HTML fragment. */
-  def list(page:Int, query:String) = Action {
-    Ok("")
+  def list(pageNumber:Int, query:String) = Action {
+    Ok(views.html.indexList(People.page(pageNumber, PageSize, query), query))
   }
 
   /** Update one entry. */
