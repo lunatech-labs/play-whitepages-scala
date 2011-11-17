@@ -59,4 +59,10 @@ object People extends Table[(Long, String, String, String, String, String)]("peo
     pagedQuery.list
   }
 
+  /** Update an entry in the database. */
+  def update(id:Long, person:Person) = database.withSession {
+    val query = for(p <- People if p.id is id) yield p.values
+    query.update(person.name, person.telephoneNumber, person.fileAs, person.office, person.emailAddress)
+  }
+
 }
