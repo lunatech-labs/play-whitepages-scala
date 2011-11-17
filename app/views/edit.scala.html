@@ -49,7 +49,7 @@
 
 @errors(field:play.api.data.Field) = {
    @for(error <- field.errors) {
-       <span class="error">@error.message</span>
+       <span class="error">@Messages(error.message)</span>
    }
 }
 

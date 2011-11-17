@@ -15,7 +15,7 @@ object Application extends Controller {
       "id" -> ignored(0),
       "name" -> requiredText,
       "telephoneNumber" -> text,
-      "fileAs" -> text,
+      "fileAs" -> requiredText,
       "office" -> text,
       "emailAddress" -> text
     )
